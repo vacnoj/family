@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- jQuery -->
+   <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+  <!-- materialize -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+
+  <!-- javascript -->
+  <!-- <script src="assets/javascript/script.js"></script> -->
+
+  <!-- CSS -->
+  <!-- <link rel="stylesheet" href="assets/css/style.css" /> -->
+    <title>Comedy Works</title>
+</head>
+<style> 
+  input {
+      display: block;
+  }
+</style>
+<body>
+    <div class="container">
+    <form id="going" action="#">
+        <h3>Going</h3>
+    <!-- <input type="checkbox" class="filled-in" id="filled-in-box" checked="checked" />
+    <label for="filled-in-box"></label> -->
+    </form>
+    </div>
+
+</body>
+<script>
+$(document).ready(function() {
+    var count = 0;
+    var people = [];
+    var person;
+    var going = JSON.parse(localStorage.getItem('going')); 
+    console.log(going);
+    if (going === null) {
+        var goingObj = {
+            "dom": null,
+            "alyssa": null,
+            "dad": null,
+            "mom": null,
+            "steven": null,
+            "molly": null,
+            "alex": null,
+            "jon": null
+        }
+        localStorage.setItem('going', JSON.stringify(goingObj));
+        going = JSON.parse(localStorage.getItem('going'));
+    }
+    
+    
+    for (var prop in going) {
+        people.push(prop);
+        // $('#going').append($person + " \n");
+    }
+console.log(people);
+
+people.forEach(function(person) {
+    count++;
+    // var personVar = eval(going[person]);
+    console.log(going[person]);
+    var $person = `<p><input type="checkbox" class="filled-in" id="person${count}" /><label id="label${count}" for="person${count}">${person}</label></p>`;
+    if (going[person]) {
+        $('#going').append($person);
+        $(`#person${count}`).addClass('selected');
+        $(`#person${count}`).attr('checked', "checked");
+        $(`#person${count}`).attr('name', person);
+    } else {
+    $('#going').append($person);
+    $(`#person${count}`).attr('name', person);
+    }
+});
+
+
+$('.filled-in').click(function() {
+    // event.preventDefault();
+    $(this).toggleClass('selected');
+    person = $(this).prop('name');
+    // person = $().val().trim();
+    if ($(this).hasClass('selected')) {
+        going[person] = true;
+    } else going[person] = false;
+    localStorage.setItem('going', JSON.stringify(going));
+    console.log(goingObj);
+});
+
+});
+</script>
+
+</html>
